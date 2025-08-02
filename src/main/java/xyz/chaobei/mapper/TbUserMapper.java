@@ -1,16 +1,16 @@
 package xyz.chaobei.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import xyz.chaobei.entity.TUser;
+import xyz.chaobei.entity.TbUserDO;
 
 /**
  * <p>
  *  Mapper 接口
  * </p>
  *
- * @author Baomidou
- * @since 2025-07-17
+ * @author mrc
+ * @since 2025-08-02
  */
-public interface TUserMapper extends BaseMapper<TUser> {
+public interface TbUserMapper extends BaseMapper<TbUserDO> {
 
 }

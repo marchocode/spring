@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+/**
+ * @author mrc
+ */
 @Component
 @Slf4j
 public class MyMetaObjectHandler implements MetaObjectHandler {

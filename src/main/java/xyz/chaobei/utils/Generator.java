@@ -10,15 +10,19 @@ import com.baomidou.mybatisplus.generator.fill.Column;
 import java.nio.file.Paths;
 import java.util.Map;
 
+/**
+ * @author mrc
+ */
 public class Generator {
 
     public static void main(String[] args) {
 
-        FastAutoGenerator.create("jdbc:mysql://localhost:3306/test?useSSL=false", "root", "root")
+        FastAutoGenerator.create("jdbc:mysql://192.168.1.20:3306/test?useSSL=false", "root", "root")
                 .globalConfig(builder -> builder
-                        .author("Baomidou")
+                        .author("mrc")
                         .outputDir(Paths.get(System.getProperty("user.dir")) + "/src/main/java")
                         .commentDate("yyyy-MM-dd")
+                        .enableSpringdoc()
                         .dateType(DateType.ONLY_DATE)
                 )
                 .packageConfig(builder -> builder
@@ -30,9 +34,11 @@ public class Generator {
                         .pathInfo(Map.of(OutputFile.xml, Paths.get(System.getProperty("user.dir")) + "/src/main/resources/mapper"))
                 )
                 .strategyConfig(builder -> builder
-                        .addInclude("t_user")
-                        .entityBuilder().enableFileOverride().enableTableFieldAnnotation().addTableFills(new Column("create_time", FieldFill.INSERT),new Column("update_time", FieldFill.INSERT_UPDATE))
-                        .enableLombok()
+                        .addInclude("tb_user")
+                        .entityBuilder().formatFileName("%sDO").enableFileOverride().enableTableFieldAnnotation().addTableFills(new Column("create_time", FieldFill.INSERT),new Column("update_time", FieldFill.INSERT_UPDATE)).enableLombok()
+                        .mapperBuilder().enableFileOverride()
+                        .serviceBuilder().enableFileOverride()
+                        .controllerBuilder().disable()
                 )
                 .templateEngine(new FreemarkerTemplateEngine())
                 .execute();
