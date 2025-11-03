@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+
+    <!-- 设置日志存储路径（可在 application.yml 中配置 log.path） -->
+    <property name="LOG_PATH" value="${LOG_PATH:-logs}"/>
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="app"/>
+
+    <!-- 控制台日志格式 -->
+    <appender name="JSON_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+
+
+    <!-- 项目日志 -->
+    <root level="info">
+        <appender-ref ref="JSON_CONSOLE"/>
+    </root>
+
+</configuration>

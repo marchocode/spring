@@ -1,1 +1,13 @@
-POST http://localhost:8080/test/test
+### add user
+POST http://localhost:8080/api/user
+Content-Type: application/json
+
+{
+  "username": "mrc",
+  "phone": "15346802748",
+  "password": "123456"
+}
+
+
+### throw
+GET http://localhost:8080/api/user/throw

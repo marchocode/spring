@@ -1,11 +1,16 @@
 package xyz.chaobei.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ *
+ * @author mrc
+ */
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
@@ -27,6 +32,13 @@ public class GlobalExceptionHandler {
         }
 
         return ResponseEntity.badRequest().body(sb.toString());
+    }
+
+    @ExceptionHandler(value = Exception.class)
+    public ResponseEntity<Object> exception(Exception e) {
+        log.error("exception",e);
+        var message = String.format("系统繁忙 [%s]", MDC.get("traceId"));
+        return ResponseEntity.status(500).body(message);
     }
 
 }
