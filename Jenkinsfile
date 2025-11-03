@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         REGISTRY = "docker.io"
-        REPO = "marchocode/test"
+        REPO = "registry.cn-hangzhou.aliyuncs.com/marchocode/spring-demo"
         IMAGE_TAG = "latest"
     }
 
@@ -24,6 +24,22 @@ pipeline {
             steps {
                 script {
                     sh "docker build -t ${REPO}:${IMAGE_TAG} ."
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-credentials', // Jenkins中配置的凭证ID
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh """
+                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin ${REGISTRY}
+                    docker push ${REPO}:${IMAGE_TAG}
+                    docker logout ${REGISTRY}
+                    """
                 }
             }
         }
