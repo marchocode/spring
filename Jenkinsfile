@@ -1,33 +1,41 @@
 pipeline {
-    agent { docker { image 'maven:3.9.11-amazoncorretto-11-alpine' } }
+    agent any
+
+    environment {
+        REGISTRY = "docker.io"
+        REPO = "marchocode/test"
+        IMAGE_TAG = "latest"
+    }
+
     stages {
-        stage('Check') {
+        stage('Checkout') {
             steps {
-                sh 'mvn --version'
+                checkout scm
             }
         }
-        stage('Build') {
+
+        stage('Build Java App') {
             steps {
-                sh 'mvn clean package -DskipsTest'
+                sh 'mvn clean package -DskipTests'
             }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh "docker build -t ${REPO}:${IMAGE_TAG} ."
+                }
+            }
+        }
+
+    }
+
+    post {
+        success {
+            echo "🎉 镜像推送成功：${REPO}:${IMAGE_TAG}"
+        }
+        failure {
+            echo "❌ 构建失败，请检查日志"
         }
     }
-    post {
-            always {
-                echo 'This will always run'
-            }
-            success {
-                echo 'This will run only if successful'
-            }
-            failure {
-                echo 'This will run only if failed'
-            }
-            unstable {
-                echo 'This will run only if the run was marked as unstable'
-            }
-            changed {
-                echo 'This will run only if the state of the Pipeline has changed'
-                echo 'For example, if the Pipeline was previously failing but is now successful'
-            }
-        }
 }
