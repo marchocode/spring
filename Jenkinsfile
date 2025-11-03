@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        REGISTRY = "docker.io"
+        REGISTRY = "registry.cn-hangzhou.aliyuncs.com"
         REPO = "registry.cn-hangzhou.aliyuncs.com/marchocode/spring-demo"
         IMAGE_TAG = "latest"
     }
