@@ -36,7 +36,7 @@ pipeline {
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
                     sh """
-                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin ${REGISTRY}
+                    docker login -u $DOCKER_USER --password-stdin ${REGISTRY}
                     docker push ${REPO}:${IMAGE_TAG}
                     docker logout ${REGISTRY}
                     """
