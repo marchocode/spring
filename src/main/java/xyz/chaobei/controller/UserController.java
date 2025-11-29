@@ -44,6 +44,12 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping
+    public ResponseEntity<Object> getUsers() {
+        log.info("request to get users");
+        return ResponseEntity.ok(userService.list());
+    }
+
     /**
      * throw test
      * @return test
